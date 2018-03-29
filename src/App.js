@@ -2,49 +2,89 @@ import React, { Component } from 'react';
 import {ProgressCircle} from './ProgressCircle';
 import { MuiThemeProvider } from '../node_modules/material-ui/styles';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import styled from 'styled-components';
-import Paper from 'material-ui/Paper';
-
-import { Resizable, ResizableBox } from 'react-resizable';
 import 'react-resizable/css/styles.css';
+import {Container} from "./Container";
+import {Settings} from "./Settings";
+import AppBar from 'material-ui/AppBar';
+import {cyan500, amber500, blueGrey500} from 'material-ui/styles/colors';
 
 
-const Container = styled(Paper)`
-  padding:28px;
-  height: 100%;
-  width: 100%;
-`;
-const Sample = styled.div`
-   width: 50%;
-   margin: 0 auto;
-   padding-top: 100px;
-`;
 const muiTheme = getMuiTheme({
- // add custom theme
+    // modify muiTheme to set progress color
     palette: {
-        primary1Color: '#20e369'
+        primary1Color: amber500,
+    },
+    appBar: {
+        height: 64,
+        color: blueGrey500
     }
+
+
 });
 
+
+
+
+
+
 class App extends Component {
+    constructor(props){
+        super(props);
+
+        this.state=({
+            thickness: 10,
+            backgroundColor: '#f6f6f6',
+            textStyle: {fontFamily: 'sans-serif', fontSize: '1.8em'},
+            progress: 42,
+            size: 150,
+            resize: true,
+            indeterminate: false,
+
+    });
+    }
+
+    handleChange(e,v){
+        switch(e.target.name){
+            case 'indeterminate':
+                this.setState({...this.state,...{indeterminate: v}});
+                break;
+            case 'resize':
+                this.setState({...this.state,...{resize: v}});
+                break;
+            default:
+                if(!this.state.indeterminate) this.setState({...this.state,...{progress: v}});
+                break;
+
+        }
+    }
+
   render() {
+        const {backgroundColor, thickness, indeterminate, textStyle, progress, resize, size} = this.state;
+        const progressCircle =
+            <ProgressCircle
+              styles={{backgroundColor: backgroundColor, textStyle: textStyle}}
+              resize={resize}
+              thickness={thickness}
+              progress={progress}
+              size={size}
+              indeterminate={indeterminate}
+              onResize={value => {this.setState({...this.state,...{size: value}})}}
+            />
+
     return (
         <MuiThemeProvider muiTheme={muiTheme}>
-          <div className="App">
-            <Sample>
-              <ResizableBox
-                  lockAspectRatio={true}
-                  width={200} height={200} minConstraints={[150, 150]} maxConstraints={[500, 500]}>
-                <Container>
-                    <ProgressCircle
-                        backgroundColor={'#f6f6f6'}
-                        resize={true}
-                        size={150}
-                        progress={42}/>
-                </Container>
-              </ResizableBox>
-            </Sample>
-          </div>
+            <AppBar title="mp-progress-circle">
+
+            <Settings
+            progress={this.state.progress}
+            handleChange={(e,v) => {this.handleChange(e,v)}}
+            />
+
+            </AppBar>
+
+
+            <Container progress={progressCircle}/>
+
         </MuiThemeProvider>
     );
   }

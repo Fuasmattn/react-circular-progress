@@ -4,94 +4,70 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import ObserveSize from 'react-observe-size';
 
-import { MuiThemeProvider } from '../node_modules/material-ui/styles';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+const StyledCircularProgress = styled(CircularProgress).attrs({
 
-const StyledCircularProgress = styled(CircularProgress)`
+})`
   position: absolute !important;
   circle {
     transform-origin: 50%;
     transform: rotate(-90deg);
     transition: all 0s !important;
     }
- 
 `;
-const ProgressContainer = styled.div`
 
-`;
+
 const ProgressText = styled.div.attrs({
-    bg : props => props.backgroundColor || '#E0E0E0'
+    bg : props => props.backgroundColor || 'transparent'
 })`
   background-color: ${props => props.bg};
   border-radius: 50%;
 `;
-const ProgressValue = styled.div``;
-const Value = styled.div`
-  font-size: 1.8em;
+const ProgressValue = styled.div`
+  font-size: 1em;
   font-family: sans-serif;
 `;
 
+export const ProgressCircle = ({progress, indeterminate, size, resize, onResize, thickness, styles}) =>  {
+        const prog = Math.round(progress);
+        const value = progress > 0 ?  prog + '%' : '';
 
 
-export class ProgressCircle extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            progress: props.progress || 0,
-            size: props.size || 150,
-            backgroundColor: props.backgroundColor || '#E0E0E0'
-    };
-    }
-
-    componentWillReceiveProps({ progress, backgroundColor, size }) {
-        this.setState({
-            ...this.state,
-            ...{
-                progress, backgroundColor, size
-
-            },
-        });
-    }
-
-    render() {
-        const value = Math.round(this.state.progress);
         return (
-
             <ObserveSize observerFn={layout => {
-                if(this.props.resize) this.setState({size: layout.width});
+                  if(resize) onResize(layout.width)
             }}>
-            <ProgressContainer
-                style={{ height: this.state.size, width: this.state.size }}
-            >
                 <StyledCircularProgress
-                    size={this.state.size}
-                    thickness={10}
+                    size={size}
+                    thickness={thickness}
+                    value={prog}
                     mode="determinate"
-                    value={value}
                 />
                 <ProgressText
-                    backgroundColor={this.state.backgroundColor}
+                    backgroundColor={styles.backgroundColor}
                     style={{
-                        lineHeight: this.state.size + 'px',
+                        lineHeight: size + 'px',
                         textAlign: 'center',
                         verticalAlign: 'middle',
-                        width: this.state.size + 'px',
-                        height: this.state.size + 'px',
+                        width: size,
+                        height: size,
                     }}
                 >
-                    <ProgressValue>
-                        <Value>{value}%</Value>
+                    <ProgressValue
+                    style={styles.textStyle}>
+                       {value}
                     </ProgressValue>
                 </ProgressText>
-            </ProgressContainer>
             </ObserveSize>
 
         );
     }
-}
+
 
 ProgressCircle.propTypes = {
     progress: PropTypes.number,
-    resize: PropTypes.bool,
     size: PropTypes.number,
+    resize: PropTypes.bool,
+    onResize: PropTypes.func,
+    thickness: PropTypes.number,
+    styles: PropTypes.object
 };
