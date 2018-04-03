@@ -1,93 +1,112 @@
-import React, { Component } from 'react';
-import {ProgressCircle} from './ProgressCircle';
-import { MuiThemeProvider } from '../node_modules/material-ui/styles';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import 'react-resizable/css/styles.css';
-import {Container} from "./Container";
-import {Settings} from "./Settings";
-import AppBar from 'material-ui/AppBar';
-import {cyan500, amber500, blueGrey500} from 'material-ui/styles/colors';
+import React, { Component } from "react";
+import { ProgressCircle } from "./ProgressCircle";
+import { MuiThemeProvider } from "../node_modules/material-ui/styles";
+import getMuiTheme from "material-ui/styles/getMuiTheme";
+import "react-resizable/css/styles.css";
+import { Container } from "./Container";
+import { Settings } from "./Settings";
+import { blueGrey500 } from "material-ui/styles/colors";
 
+import styled from "styled-components";
 
-const muiTheme = getMuiTheme({
-    // modify muiTheme to set progress color
-    palette: {
-        primary1Color: amber500,
-    },
-    appBar: {
-        height: 64,
+const Headline = styled.h1`
+  font-family: "Roboto Slab", sans-serif;
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 50px;
+  color: #505050;
+`;
+
+export class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      thickness: 10,
+      backgroundColor: "#f6f6f6",
+      textStyle: { fontSize: "1.8em" },
+      progress: 42,
+      size: 150,
+      displayText: true,
+      displayBackground: true,
+      resize: true,
+      indeterminate: false,
+      color: "#f44336"
+    };
+  }
+
+  updateMuiTheme(color) {
+    return getMuiTheme({
+      typography: {
+        fontFamily: "Roboto",
+        fontSize: "5rem"
+      },
+
+      palette: {
+        primary1Color: color,
+        secondary: "#505050"
+      },
+      appBar: {
+        height: 56,
         color: blueGrey500
-    }
-
-
-});
-
-
-
-
-
-
-class App extends Component {
-    constructor(props){
-        super(props);
-
-        this.state=({
-            thickness: 10,
-            backgroundColor: '#f6f6f6',
-            textStyle: {fontFamily: 'sans-serif', fontSize: '1.8em'},
-            progress: 42,
-            size: 150,
-            resize: true,
-            indeterminate: false,
-
+      }
     });
-    }
-
-    handleChange(e,v){
-        switch(e.target.name){
-            case 'indeterminate':
-                this.setState({...this.state,...{indeterminate: v}});
-                break;
-            case 'resize':
-                this.setState({...this.state,...{resize: v}});
-                break;
-            default:
-                if(!this.state.indeterminate) this.setState({...this.state,...{progress: v}});
-                break;
-
-        }
-    }
+  }
+  onSliderMoved(e, v) {
+    if (!this.state.indeterminate)
+      this.setState({ ...this.state, ...{ progress: v } });
+  }
 
   render() {
-        const {backgroundColor, thickness, indeterminate, textStyle, progress, resize, size} = this.state;
-        const progressCircle =
-            <ProgressCircle
-              styles={{backgroundColor: backgroundColor, textStyle: textStyle}}
-              resize={resize}
-              thickness={thickness}
-              progress={progress}
-              size={size}
-              indeterminate={indeterminate}
-              onResize={value => {this.setState({...this.state,...{size: value}})}}
-            />
+
+    const {
+      backgroundColor,
+      thickness,
+      textStyle,
+      progress,
+      displayBackground,
+      displayText,
+      size
+    } = this.state;
+    const progressCircle = (
+      <ProgressCircle
+        styles={{ backgroundColor: backgroundColor, textStyle: textStyle }}
+        thickness={thickness}
+        progress={progress}
+        size={size}
+        displayText={displayText}
+        displayBackground={displayBackground}
+        onResize={value => {
+          this.setState({ ...this.state, ...{ size: value } });
+        }}
+      />
+    );
 
     return (
-        <MuiThemeProvider muiTheme={muiTheme}>
-            <AppBar title="mp-progress-circle">
+      <MuiThemeProvider muiTheme={this.updateMuiTheme(this.state.color)}>
+        <Headline>mp-circular-progress</Headline>
+        <Settings
+          progress={this.state.progress}
+          color={this.state.color}
+          toggleText={() => {
+            this.setState({ displayText: !this.state.displayText });
+          }}
+          toggleBackground={() => {
+            this.setState({ displayBackground: !this.state.displayBackground });
+          }}
+          onColorChanged={color => {
+            this.setState({ color: color.hex });
+          }}
+          onSliderMoved={(e, v) => {
+            this.onSliderMoved(e, v);
+          }}
+          handleChange={(e, v) => {
+            this.handleChange(e, v);
+          }}
+        />
 
-            <Settings
-            progress={this.state.progress}
-            handleChange={(e,v) => {this.handleChange(e,v)}}
-            />
-
-            </AppBar>
-
-
-            <Container progress={progressCircle}/>
-
-        </MuiThemeProvider>
+        <Container progress={progressCircle} />
+      </MuiThemeProvider>
     );
   }
 }
-
-export default App;

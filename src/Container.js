@@ -22,7 +22,7 @@ export const Container = ({progress}) => {
                 width={200}
                 height={200}
                 minConstraints={[150, 150]}
-                maxConstraints={[500, 500]}>
+                maxConstraints={[650, 650]}>
                 <Box>
                     {progress}
                 </Box>

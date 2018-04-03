@@ -1,46 +1,48 @@
-import React from 'react';
-import Slider from 'material-ui/Slider';
-import Toggle from 'material-ui/Toggle';
-const styles = {
-    toggle: {
-            marginBottom: 16,
-            width: 'auto',
+import React from "react";
+import Slider from "material-ui/Slider";
+import { CirclePicker } from "react-color";
+import Toggle from "material-ui/Toggle";
 
-    },
-    label: {
-        color: 'white'
-    }
-}
-
-export const Settings = ({progress, handleChange}) => {
-    return(
-        <div style={{width: '50%', margin: '0 auto', padding: '64px 128px 0 0 ', float : 'left'}}>
-            <Toggle
-                name="resize"
-                label="Resize"
-                style={styles.toggle}
-                labelStyle={styles.label}
-                onToggle={handleChange}
-            />
-            <Toggle
-                name="indeterminate"
-                label="Indeterminate"
-                style={styles.toggle}
-                labelStyle={styles.label}
-                onToggle={handleChange}
-            />
-        <div style={{width: '100%', margin: '0 auto', padding: '0 128px 0 0 ', float : 'left'}}>
-
-            <Slider
-                name="progress"
-                min={0}
-                max={100}
-                step={1}
-                value={progress}
-                onChange={handleChange}
-            />
-
+export const Settings = ({
+  progress,
+  onSliderMoved,
+  onColorChanged,
+  color,
+  toggleText,
+  toggleBackground
+}) => {
+  return (
+    <div
+      style={{
+        width: "50%",
+        margin: "0 auto"
+      }}
+    >
+      <Slider
+        name="progress"
+        min={0}
+        max={100}
+        step={1}
+        value={progress}
+        onChange={onSliderMoved}
+      />
+      <div>
+        <div style={{ display: "inline-block" }}>
+          <CirclePicker color={color} onChangeComplete={onColorChanged} />
         </div>
+        <div style={{ display: "inline-block", padding: "0 50px" }}>
+          <Toggle
+            label="Show Text"
+            onToggle={toggleText}
+            defaultToggled={true}
+          />
+          <Toggle
+            label="Background"
+            onToggle={toggleBackground}
+            defaultToggled={true}
+          />
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
