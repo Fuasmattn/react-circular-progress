@@ -4,6 +4,10 @@ Responsive Circular Progress inspired by [Material-UI](http://www.material-ui.co
 
 Use ```<NativeProgressCircle />``` to render the same Component without MUI framework.
 
+## Demo
+
+Clone the Repository and run ```yarn start``` to reproduce the demo shown below.
+
 ![screenshot](https://github.com/Fuasmattn/react-circular-progress/blob/master/src/screenshot.png )
 
 ## License
