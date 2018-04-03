@@ -58,7 +58,6 @@ export class App extends React.Component {
   }
 
   render() {
-
     const {
       backgroundColor,
       thickness,
