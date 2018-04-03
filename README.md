@@ -7,4 +7,4 @@ Circle-Progressbar based on [Material-UI](http://www.material-ui.com/) and [reac
 
 ## License
 
-This project is licensed under the terms of the [MIT license](https://github.com/Fuasmattn/react-circular-progress/LICENSE)
+This project is licensed under the terms of the [MIT license](https://github.com/Fuasmattn/react-circular-progress/blob/master/LICENSE)
