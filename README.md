@@ -11,6 +11,15 @@ Clone the Repository and run ```yarn start``` to reproduce the demo shown below.
 
 ![screenshot](https://github.com/Fuasmattn/react-circular-progress/blob/master/src/screenshot.png )
 
+## Open Tasks
+
+- [x] Native Solution without MUI
+- [x] Custom colors
+- [x] resize to match container
+- [ ] Start progress at 12 o'clock
+- [ ] make inner text resizable
+- [ ] color gradients
+
 ## License
 
 This project is licensed under the terms of the [MIT license](https://github.com/Fuasmattn/react-circular-progress/blob/master/LICENSE)
