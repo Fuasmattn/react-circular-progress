@@ -83,7 +83,7 @@ export class App extends React.Component {
 
     return (
       <MuiThemeProvider muiTheme={this.updateMuiTheme(this.state.color)}>
-        <Headline>mp-circular-progress</Headline>
+        <Headline>react-circular-progress</Headline>
         <Settings
           progress={this.state.progress}
           color={this.state.color}
