@@ -6,6 +6,7 @@ import "react-resizable/css/styles.css";
 import { Container } from "./Container";
 import { Settings } from "./Settings";
 import { blueGrey500 } from "material-ui/styles/colors";
+import {NativeProgressCircle} from "./NativeProgressCircle";
 
 import styled from "styled-components";
 
@@ -84,6 +85,7 @@ export class App extends React.Component {
     return (
       <MuiThemeProvider muiTheme={this.updateMuiTheme(this.state.color)}>
         <Headline>react-circular-progress</Headline>
+
         <Settings
           progress={this.state.progress}
           color={this.state.color}
@@ -104,7 +106,19 @@ export class App extends React.Component {
           }}
         />
 
-        <Container progress={progressCircle} />
+        <Container progress={progressCircle} nativeProgress={<NativeProgressCircle
+            thickness={thickness}
+            color={this.state.color}
+            progress={progress}
+            displayText={displayText}
+            displayBackground={displayBackground}
+            styles={{ backgroundColor: backgroundColor, textStyle: textStyle }}
+            size={size}
+            onResize={value => {
+                this.setState({ ...this.state, ...{ size: value } });
+            }}
+        />} />
+
       </MuiThemeProvider>
     );
   }
