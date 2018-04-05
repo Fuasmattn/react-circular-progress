@@ -1,12 +1,8 @@
-import React, { Component } from "react";
-import { ProgressCircle } from "./ProgressCircle";
-import { MuiThemeProvider } from "../node_modules/material-ui/styles";
-import getMuiTheme from "material-ui/styles/getMuiTheme";
+import React from "react";
 import "react-resizable/css/styles.css";
 import { Container } from "./Container";
 import { Settings } from "./Settings";
-import { blueGrey500 } from "material-ui/styles/colors";
-import {NativeProgressCircle} from "./NativeProgressCircle";
+import { NativeProgressCircle } from "./NativeProgressCircle";
 
 import styled from "styled-components";
 
@@ -36,25 +32,8 @@ export class App extends React.Component {
     };
   }
 
-  updateMuiTheme(color) {
-    return getMuiTheme({
-      typography: {
-        fontFamily: "Roboto",
-        fontSize: "5rem"
-      },
-
-      palette: {
-        primary1Color: color,
-        secondary: "#505050"
-      },
-      appBar: {
-        height: 56,
-        color: blueGrey500
-      }
-    });
-  }
   onSliderMoved(e, v) {
-    if (!this.state.indeterminate)
+    if (!this.state.indeterminate )
       this.setState({ ...this.state, ...{ progress: v } });
   }
 
@@ -68,22 +47,9 @@ export class App extends React.Component {
       displayText,
       size
     } = this.state;
-    const progressCircle = (
-      <ProgressCircle
-        styles={{ backgroundColor: backgroundColor, textStyle: textStyle }}
-        thickness={thickness}
-        progress={progress}
-        size={size}
-        displayText={displayText}
-        displayBackground={displayBackground}
-        onResize={value => {
-          this.setState({ ...this.state, ...{ size: value } });
-        }}
-      />
-    );
 
     return (
-      <MuiThemeProvider muiTheme={this.updateMuiTheme(this.state.color)}>
+      <div>
         <Headline>react-circular-progress</Headline>
 
         <Settings
@@ -101,25 +67,28 @@ export class App extends React.Component {
           onSliderMoved={(e, v) => {
             this.onSliderMoved(e, v);
           }}
-          handleChange={(e, v) => {
-            this.handleChange(e, v);
-          }}
         />
 
-        <Container progress={progressCircle} nativeProgress={<NativeProgressCircle
-            thickness={thickness}
-            color={this.state.color}
-            progress={progress}
-            displayText={displayText}
-            displayBackground={displayBackground}
-            styles={{ backgroundColor: backgroundColor, textStyle: textStyle }}
-            size={size}
-            onResize={value => {
+        <Container
+          progress={
+            <NativeProgressCircle
+              thickness={thickness}
+              color={this.state.color}
+              progress={progress}
+              displayText={displayText}
+              displayBackground={displayBackground}
+              styles={{
+                backgroundColor: backgroundColor,
+                textStyle: textStyle
+              }}
+              size={size}
+              onResize={value => {
                 this.setState({ ...this.state, ...{ size: value } });
-            }}
-        />} />
-
-      </MuiThemeProvider>
+              }}
+            />
+          }
+        />
+      </div>
     );
   }
 }

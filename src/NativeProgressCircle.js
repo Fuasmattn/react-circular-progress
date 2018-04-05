@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import ObserveSize from "react-observe-size";
+import { ProgressCircle } from "./ProgressCircle";
+import PropTypes from "prop-types";
 
 const Circle = styled.svg`
   position: absolute;
@@ -11,7 +13,7 @@ const Circle = styled.svg`
     stroke: transparent;
   }
   > #prog {
-    transition: all 0s  ease-in-out;
+    transition: all 0s ease-in-out;
     stroke-linecap: round;
     //  transform-origin: 25%;
     // transform: rotate(-90deg);
@@ -41,6 +43,7 @@ export class NativeProgressCircle extends React.Component {
   }
 
   componentWillReceiveProps({ size, thickness, progress, color }) {
+
     this.setState({
       color: color,
       radius: size / 2,
@@ -64,36 +67,91 @@ export class NativeProgressCircle extends React.Component {
   }
 
   getDashArray() {
-    return this.state.radius * Math.PI * 2;
+    return this.state.radius ? this.state.radius * Math.PI * 2 : 0;
   }
 
   render() {
-    const prog = Math.round(this.props.progress);
-    const value = this.props.progress > 0 ? prog + "%" : "";
+    const height = this.state.height;
+    const width = this.state.width;
+    const cx = width ? width / 2 : 0;
+    const cy = height ? height / 2 : 0;
+    const r = this.state.radius
+      ? this.state.radius - 0.5 * this.state.strokeWidth
+      : 0;
+    const progress = this.state.progress;
+
+    const value =
+      this.props.progress > 0 ? Math.round(this.props.progress) + "%" : "";
     const textStyle0 = { ...this.props.styles.textStyle };
     textStyle0.opacity = 0;
     const textStyle = this.props.displayText
       ? this.props.styles.textStyle
       : textStyle0;
-    return <div>
-        <ObserveSize observerFn={layout => {
+
+
+
+    return (
+      <div>
+        <ObserveSize
+          observerFn={layout => {
             this.props.onResize(layout.width);
-          }}>
-          <ProgressText style={{ lineHeight: this.state.height + "px", textAlign: "center", verticalAlign: "middle", width: this.state.width, height: this.state.height }}>
+          }}
+        >
+          <ProgressText
+            style={{
+              lineHeight: height + "px",
+              textAlign: "center",
+              verticalAlign: "middle",
+              width: width,
+              height: height
+            }}
+          >
             <ProgressValue style={textStyle}>{value}</ProgressValue>
           </ProgressText>
-          <Circle width={this.state.width} height={this.state.height}>
-            <circle strokeWidth={this.state.strokeWidth} id="backgroundCircle" r={this.state.radius} cx={this.state.width / 2} cy={this.state.height / 2} fill={this.props.displayBackground ? "#f6f6f6" : "transparent"} strokeDasharray={this.getDashArray()} />
-            <circle id="prog" r={this.state.radius - 0.5 * this.state.strokeWidth} cx={this.state.width / 2} cy={this.state.height / 2} fill="transparent" strokeWidth={this.state.strokeWidth} strokeDasharray={this.getDashArray()} strokeDashoffset={this.state.progress} stroke={this.state.color} />
+          <Circle width={width} height={height}>
+            <circle
+              strokeWidth={this.state.strokeWidth}
+              id="backgroundCircle"
+              r={this.state.radius}
+              cx={cx}
+              cy={cy}
+              fill={this.props.displayBackground ? "#f6f6f6" : "transparent"}
+              strokeDasharray={this.getDashArray()}
+            />
+            <circle
+              id="prog"
+              r={r}
+              cx={cx}
+              cy={cy}
+              fill="transparent"
+              strokeWidth={this.state.strokeWidth}
+              strokeDasharray={this.getDashArray()}
+              strokeDashoffset={progress}
+              stroke={this.state.color}
+            />
           </Circle>
         </ObserveSize>
-      </div>;
+      </div>
+    );
   }
 }
 
+ProgressCircle.propTypes = {
+  progress: PropTypes.number,
+  size: PropTypes.number,
+  onResize: PropTypes.func,
+  thickness: PropTypes.number,
+  styles: PropTypes.object,
+  displayText: PropTypes.bool,
+  displayBackground: PropTypes.bool,
+  color: PropTypes.string
+};
+
 NativeProgressCircle.defaultProps = {
-  width: 100,
-  height: 100,
-  radius: 50,
-  strokeWidth: 5
+  progress: 0,
+  size: 100,
+  thickness: 10,
+  displayText: true,
+  displayBackground: true,
+  color: "#000000"
 };

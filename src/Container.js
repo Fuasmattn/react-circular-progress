@@ -14,7 +14,7 @@ const Sample = styled.div`
   margin: 0 auto;
   padding-top: 100px;
 `;
-export const Container = ({ progress, nativeProgress }) => {
+export const Container = ({ progress }) => {
   return (
     <Sample>
       <ResizableBox
@@ -24,11 +24,8 @@ export const Container = ({ progress, nativeProgress }) => {
         minConstraints={[150, 150]}
         maxConstraints={[650, 650]}
       >
-        <Box style={{ marginBottom: "28px" }}>
-          <div>{progress}</div>
-        </Box>
         <Box>
-          <div>{nativeProgress}</div>
+          <div>{progress}</div>
         </Box>
       </ResizableBox>
     </Sample>
