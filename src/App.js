@@ -5,6 +5,7 @@ import { Settings } from "./Settings";
 import { NativeProgressCircle } from "./NativeProgressCircle";
 import {ProgressCircle} from "./ProgressCircle";
 import styled from "styled-components";
+import {Test} from "./Test";
 
 const Headline = styled.h1`
   font-family: "Roboto Slab", sans-serif;
