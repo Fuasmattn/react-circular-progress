@@ -14,7 +14,7 @@ const Sample = styled.div`
   margin: 0 auto;
   padding-top: 100px;
 `;
-export const Container = ({ progress }) => {
+export const Container = ({ progress, muiProgress }) => {
   return (
     <Sample>
       <ResizableBox
@@ -25,8 +25,11 @@ export const Container = ({ progress }) => {
         maxConstraints={[650, 650]}
       >
         <Box>
-          <div>{progress}</div>
+          <div>{muiProgress}</div>
         </Box>
+          <Box>
+              <div>{progress}</div>
+          </Box>
       </ResizableBox>
     </Sample>
   );

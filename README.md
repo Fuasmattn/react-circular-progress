@@ -3,7 +3,7 @@
 
 Responsive Circular Progress inspired by [Material-UI](http://www.material-ui.com/) using [react-oberserve-size](https://github.com/oberonamsterdam/react-observe-size). Tweaked original component by adding few more styling options including resizable property when placed inside a container and inner text.
 
-Use ```<NativeProgressCircle />``` to render the same Component without MUI framework.
+Import and use ```<ProgressCircle />``` inside a Container which can have fixed or flexible dimensions. Use ```<NativeProgressCircle />``` to render the same Component without MUI framework.
 
 ## Demo
 
@@ -14,11 +14,13 @@ Clone the Repository and run ```yarn start``` to reproduce the demo shown below.
 ## Open Tasks
 
 - [x] Native Solution without MUI
+- [ ] MUI-less Version Progress steps fix
 - [x] Custom colors
 - [x] resize to match container
 - [ ] Start progress at 12 o'clock
 - [ ] make inner text resizable
 - [ ] color gradients
+
 
 ## License
 

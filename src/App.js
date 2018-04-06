@@ -3,7 +3,7 @@ import "react-resizable/css/styles.css";
 import { Container } from "./Container";
 import { Settings } from "./Settings";
 import { NativeProgressCircle } from "./NativeProgressCircle";
-
+import {ProgressCircle} from "./ProgressCircle";
 import styled from "styled-components";
 
 const Headline = styled.h1`
@@ -85,7 +85,25 @@ export class App extends React.Component {
               onResize={value => {
                 this.setState({ ...this.state, ...{ size: value } });
               }}
+
             />
+          }
+          muiProgress={
+              <ProgressCircle
+                  thickness={thickness}
+                  color={this.state.color}
+                  progress={progress}
+                  displayText={displayText}
+                  displayBackground={displayBackground}
+                  styles={{
+                      backgroundColor: backgroundColor,
+                      textStyle: textStyle
+                  }}
+                  size={size}
+                  onResize={value => {
+                      this.setState({...this.state, ...{size: value}});
+                  }}
+              />
           }
         />
       </div>
