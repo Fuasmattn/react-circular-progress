@@ -44,7 +44,7 @@ export class Test extends React.Component {
 }
 ```
 
-## Demo
+## Preview
 
 Clone the Repository and run `yarn start` to reproduce the demo shown below.
 
